@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using DllInjector.ViewModels;
 using DllInjector.Views;
 using Prism.Ioc;
 
@@ -16,7 +17,8 @@ namespace DllInjector
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-
+            containerRegistry.Register<MainWindow>();
+            containerRegistry.RegisterSingleton<MainWindowViewModel>();
         }
     }
 }

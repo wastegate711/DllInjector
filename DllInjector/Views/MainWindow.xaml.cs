@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using DllInjector.ViewModels;
+using Prism.Ioc;
 
 namespace DllInjector.Views
 {
@@ -7,9 +9,10 @@ namespace DllInjector.Views
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        public MainWindow(IContainerProvider containerProvider)
         {
             InitializeComponent();
+            DataContext = containerProvider.Resolve<MainWindowViewModel>();
         }
     }
 }
