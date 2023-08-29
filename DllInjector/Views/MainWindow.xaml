@@ -6,9 +6,36 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
         xmlns:vm="clr-namespace:DllInjector.ViewModels"
         prism:ViewModelLocator.AutoWireViewModel="True"
-        Title="{Binding Title}" Height="350" Width="525"
+        Title="{Binding Title}"
+        Height="350"
+        Width="525"
+        WindowStartupLocation="CenterScreen"
         d:DataContext="{d:DesignInstance vm:MainWindowViewModel}">
     <Grid>
-        <ContentControl prism:RegionManager.RegionName="ContentRegion" />
+        <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Horizontal"
+                        Margin="5">
+                <TextBox Height="20"
+                         Width="250" 
+                         Text="{Binding LibraryPath}"/>
+                <Button Content="Найти библиотеку"
+                        Command="{Binding FindLibrary}"
+                        Margin="10,0"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal"
+                        Margin="5">
+                <ComboBox Height="20"
+                          Width="200" />
+                <Button Content="Обновить"
+                        Command="{Binding RefreshListProcess}"
+                        Margin="10,0"/>
+            </StackPanel>
+            <Button Content="Inject DLL"
+                    Height="30"
+                    Width="100"
+                    Margin="10" 
+                    Command="{Binding InjectDll}"/>
+        </StackPanel>
     </Grid>
 </Window>
