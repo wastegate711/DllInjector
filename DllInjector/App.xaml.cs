@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using DllInjector.Services;
+using DllInjector.Services.Interfaces;
 using DllInjector.ViewModels;
 using DllInjector.Views;
 using Prism.Ioc;
@@ -19,6 +21,7 @@ namespace DllInjector
         {
             containerRegistry.Register<MainWindow>();
             containerRegistry.RegisterSingleton<MainWindowViewModel>();
+            containerRegistry.Register<IFindProcess, FindProcess>();
         }
     }
 }
