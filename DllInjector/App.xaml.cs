@@ -21,7 +21,7 @@ namespace DllInjector
         {
             containerRegistry.Register<MainWindow>();
             containerRegistry.RegisterSingleton<MainWindowViewModel>();
-            containerRegistry.Register<IFindProcess, FindProcess>();
+            containerRegistry.Register<IMakeProcess, MakeProcess>();
         }
     }
 }
