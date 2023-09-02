@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
+using DllInjector.Services.Interfaces;
 using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -9,9 +9,14 @@ namespace DllInjector.ViewModels
 {
     public class MainWindowViewModel : BindableBase
     {
-        public MainWindowViewModel()
-        {
+        private readonly IMakeProcess _makeProcess;
 
+        public MainWindowViewModel(IMakeProcess makeProcess)
+        {
+            _makeProcess = makeProcess;
+            ListProcess = new ObservableCollection<Process>(makeProcess.GetAllProcesses());
+            // Process t;
+            // t.
         }
 
         #region Свойства
@@ -45,8 +50,19 @@ namespace DllInjector.ViewModels
         /// </summary>
         public ObservableCollection<Process> ListProcess
         {
-            get { return _listProcess; }
-            set { SetProperty(ref _listProcess, value); }
+            get => _listProcess;
+            set => SetProperty(ref _listProcess, value);
+        }
+
+        private Process _listProcessSelected;
+
+        /// <summary>
+        /// Выделеный процесс в ComboBox.
+        /// </summary>
+        public Process ListProcessSelected
+        {
+            get => _listProcessSelected;
+            set => SetProperty(ref _listProcessSelected, value);
         }
 
         #endregion
@@ -54,27 +70,29 @@ namespace DllInjector.ViewModels
         #region Команды
 
         #region Открытие окна поиска библиотеки
+
         private DelegateCommand _findLibrary;
 
         /// <summary>
         /// Открытие окна поиска библиотеки.
         /// </summary>
-        public DelegateCommand FindLibrary            =>
+        public DelegateCommand FindLibrary =>
             _findLibrary ??= new DelegateCommand(ExecuteFindLibrary);
 
         private void ExecuteFindLibrary()
         {
             var ofd = new OpenFileDialog();
-            ofd.Filter="(.dll)|*.dll";
-            ofd.Title="Find Library";
+            ofd.Filter = "(.dll)|*.dll";
+            ofd.Title = "Find Library";
 
             bool? result = ofd.ShowDialog();
 
-            if(result==true)
+            if (result == true)
             {
                 LibraryPath = ofd.FileName;
             }
         }
+
         #endregion
 
         #region Обновить список процессов
@@ -89,7 +107,8 @@ namespace DllInjector.ViewModels
 
         private void ExecuteRefreshListProcess()
         {
-
+            ListProcess.Clear();
+            ListProcess.AddRange(_makeProcess.GetAllProcesses());
         }
 
         #endregion
@@ -106,10 +125,10 @@ namespace DllInjector.ViewModels
 
         private void ExecuteInjectDll()
         {
-
         }
 
         #endregion
+
         #endregion
     }
 }
